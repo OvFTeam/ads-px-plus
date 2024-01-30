@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
+const { count } = require('console');
 
 (async () => {
     const pathToExtension = path.join(process.cwd(), 'extension');
@@ -82,10 +83,18 @@ const axios = require('axios');
         const buttonSelector = 'button.btn.btn-gradient.w-full.h-40.mt-15';
         await adsPage.waitForSelector(buttonSelector);
         await adsPage.click(buttonSelector);
-        const userKeyword = 'shirtes49';
-        const selector = `.e703a.undefined label:contains('${userKeyword}')`;
-        await adsPage.waitForSelector(selector);
-        await adsPage.click(selector);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await adsPage.click('.config-toggle');
+        const elements = await adsPage.$$('span.text-semibold');
+        let count = 1;
+        for (let i = 0; i < elements.length; i += 2) {
+            const text = await adsPage.evaluate(el => el.textContent, elements[i]);
+            console.log(`${count}. ${text}`);
+            count++;
+        }
+        await elements[0].click()
+        await adsPage.waitForSelector('.config-toggle');
+        await adsPage.click('.config-toggle');
     } catch (error) {
         console.error('Error:', error);
     }
