@@ -79,6 +79,13 @@ const axios = require('axios');
         await adsPage.keyboard.press('Enter');
         await adsPage.waitForNavigation();
         await adsPage.goto('https://adscheck.smit.vn/app/share-pixel');
+        const buttonSelector = 'button.btn.btn-gradient.w-full.h-40.mt-15';
+        await adsPage.waitForSelector(buttonSelector);
+        await adsPage.click(buttonSelector);
+        const userKeyword = 'shirtes49';
+        const selector = `.e703a.undefined label:contains('${userKeyword}')`;
+        await adsPage.waitForSelector(selector);
+        await adsPage.click(selector);
     } catch (error) {
         console.error('Error:', error);
     }
