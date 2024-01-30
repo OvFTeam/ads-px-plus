@@ -1,0 +1,83 @@
+{
+    "manifest_version": 3,
+    "name": "SMIT Connect",
+    "version": "1.0.5",
+    "description": "SMIT cross-platform data connection extension",
+    "homepage_url": "https://smit.vn",
+    "minimum_chrome_version": "105",
+    "action": {
+        "default_popup": "dashboard.html",
+        "default_icon": {
+            "16": "assets/icons.png",
+            "48": "assets/icons.png",
+            "128": "assets/icons.png"
+        }
+    },
+    "icons": {
+        "16": "assets/icons.png",
+        "48": "assets/icons.png",
+        "128": "assets/icons.png"
+    },
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "permissions": [
+        "activeTab",
+        "declarativeContent",
+        "declarativeNetRequest",
+        "management",
+        "notifications",
+        "storage",
+        "unlimitedStorage",
+        "tabs",
+        "contextMenus",
+        "browsingData",
+        "contentSettings"
+    ],
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*"
+    ],
+    "externally_connectable": {
+        "matches": [
+            "http://*/*",
+            "https://*/*"
+        ]
+    },
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmZtaxZw1eDIv4394OUZ2rgZALlm8KDvCrRKikMgP27VexuxOOYqgGglCsObWsW/YY/w6G+dHIlr6Lyggvf7a/qa2hiaMjoQFW2J90S8tG9kzRkHg6QE4G0DKxCf/9ny6RSZF28L/cNvUvOsmIOpO+ee23Us1ZKCEM1/zHnjIhS9ZYLw4Z7Zo/f+z7AGZhXZkGZ8Xm9uOk5i1U+t5ysnt5PvG87nsEp26dKIqO9C2dWkbZaAfJ5ShNkJsX8hqqhjH1ztjsZN50N6kYM0O5xJjiNWRdUZN84e9gbOqeA4orvZ8u0KNEfgZk3AApFRzgGqnUIsyvMIZ5hscfp3U1dXyuQIDAQAB",
+    "content_scripts": [
+        {
+            "js": [
+                "content-scripts/import-main.js"
+            ],
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "all_frames": true,
+            "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "resources": [
+                "content-scripts/hook.js"
+            ]
+        },
+        {
+            "resources": [
+                "vendor.js",
+                "content-scripts/main.js"
+            ],
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ]
+        }
+    ]
+}
