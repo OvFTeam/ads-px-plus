@@ -90,9 +90,9 @@ const { count } = require('console');
         for (let i = 0; i < elements.length; i += 2) {
             const text = await adsPage.evaluate(el => el.textContent, elements[i]);
             console.log(`${count}. ${text}`);
+            await elements[i].click();
             count++;
         }
-        await elements[0].click()
         await adsPage.waitForSelector('.config-toggle');
         await adsPage.click('.config-toggle');
     } catch (error) {
