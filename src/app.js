@@ -7,5 +7,6 @@ const path = require('path');
     const accountsPath = path.join(process.cwd(), 'data/account.json');
     const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
     await modules.loginFacebook(browser, accountsData, accountsPath);
-    await modules.loginAds(browser, accountsData);
+    const { adsPage, pixelData } = await modules.loginAds(browser, accountsData);
+    await modules.reloadPixelData(adsPage);
 })();
