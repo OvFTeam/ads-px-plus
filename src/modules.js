@@ -116,6 +116,37 @@ async function reloadPixelData(adsPage) {
     }
     fs.writeFileSync(jsonFilePath, JSON.stringify(pixelData, null, 2));
     await adsPage.click(toggleSharePixelSelector);
+    return elements;
+}
+async function sharePixel(adsPage, elements, idPixel, tkqc) {
+    const toggleSharePixelSelector = '.config-toggle';
+    const isChecked = await adsPage.$eval('.f0441 input[type="checkbox"]', checkbox => checkbox.checked);
+    if (isChecked) {
+        await adsPage.click('.f0441 input[type="checkbox"]');
+    } else {
+        await adsPage.click('.f0441 input[type="checkbox"]');
+        await adsPage.click('.f0441 input[type="checkbox"]');
+    }
+    await elements[idPixel].click();
+    await adsPage.click(toggleSharePixelSelector);
+    const textareaSelector = '.config-textarea textarea';
+    const tkqcString = tkqc.toString();
+    await adsPage.waitForSelector('.config-tab');
+    await adsPage.waitForSelector('.config-tab');
+    await adsPage.type(textareaSelector, tkqcString);
+    const buttonSelector = '.btn-gradient';
+    await adsPage.waitForSelector(buttonSelector);
+    await adsPage.click(buttonSelector);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    const actionTab = await adsPage.$('.config-tab');
+    await actionTab.click();
+    await adsPage.focus(textareaSelector);
+    await adsPage.keyboard.down('Control');
+    await adsPage.keyboard.press('KeyA');
+    await adsPage.keyboard.up('Control');
+    await adsPage.keyboard.press('Delete');
+    await adsPage.click(toggleSharePixelSelector);
+    return 'Success';
 }
 async function closeBrowser(browser) {
     await browser.close();
@@ -126,5 +157,6 @@ module.exports = {
     loginFacebook,
     loginAds,
     reloadPixelData,
+    sharePixel,
     closeBrowser,
 };

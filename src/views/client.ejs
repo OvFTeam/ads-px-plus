@@ -56,28 +56,28 @@
         </script>
         <script>
             function submitForm() {
-                var tkqkValue = document.getElementsByName("tkqk")[0].value;
+                var tkqcValue = document.getElementsByName("tkqc")[0].value;
                 event.preventDefault();
                 fetch('/push', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ tkqk: tkqkValue })
+                    body: JSON.stringify({ tkqc: tkqcValue })
                 })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.result === 'success') {
+                        if (data.result === 'Success') {
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Thành công',
                                 text: 'Gửi đi thành công',
                             });
-                        } else if (data.result === 'fail') {
+                        } else if (data.result === 'Fail') {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Lỗi',
-                                text: 'Lỗi phải máy chủ',
+                                text: 'Nhấn quá nhanh, vui lòng đợi 10 giây',
                             });
                         } else {
                             Swal.fire({
@@ -115,7 +115,7 @@
             <div id="client-push">
                 <label>ID Tài Khoản Quảng Cáo:</label>
                 <div class="save-button">
-                    <input type="text" name="tkqk">
+                    <input type="text" name="tkqc">
                 </div>
                 <div class="save-button">
                     <button type="button" onclick="submitForm()">Gửi đi</button>

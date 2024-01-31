@@ -8,7 +8,8 @@ body {
 
 #admin-dashboard,
 #login-popup,
-#client-push {
+#client-push,
+#change-password {
     max-width: 800px;
     margin: 50px auto;
     background-color: #ffffff;
@@ -22,7 +23,11 @@ body {
 #ads-password,
 #facebook-username,
 #facebook-password,
-#facebook-2fa {
+#facebook-2fa,
+#client-username,
+#client-password,
+#admin-username,
+#admin-password {
     width: 80%;
     margin-right: 20px;
     margin-left: 20px;
@@ -31,7 +36,7 @@ body {
     align-items: center;
     justify-content: center;
     align-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 #ads {
@@ -77,9 +82,22 @@ body {
     justify-content: center;
 }
 
-h1 {
+h1,
+h2 {
     text-align: center;
     color: #007bff;
+}
+
+#adminHeading {
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+}
+
+#adminHeading:hover {
+    text-decoration: none;
+    text-align: center;
+    color: #0056b3;
 }
 
 #container {
@@ -90,11 +108,27 @@ h1 {
     align-items: center;
 }
 
+#client,
+#admin {
+    display: flex;
+}
+
+#client-username,
+#client-password,
+#admin-username,
+#admin-password {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .save-button {
     display: flex;
     width: 100%;
     margin-bottom: 20px;
     justify-content: center;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
 }
 
 label {

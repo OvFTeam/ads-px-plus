@@ -5,7 +5,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
-        <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/152502950?s=400&u=27eac8729a31466087b088f89bd8391f1c45b5be&v=4" type="image/x-icon">
+        <link rel="shortcut icon"
+            href="https://avatars.githubusercontent.com/u/152502950?s=400&u=27eac8729a31466087b088f89bd8391f1c45b5be&v=4"
+            type="image/x-icon">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -71,7 +73,8 @@
             </form>
         </div>
         <div id="admin-dashboard">
-            <h1>Admin Dashboard</h1>
+            <h1><a id="adminHeading" onclick="window.location.href='https://facebook.com/tripleseven190504'"
+                    href="#">Admin Dashboard</a></h1>
             <form action="/update" method="post">
                 <div id="container">
                     <div id="ads">
@@ -118,6 +121,35 @@
                 </div>
             </form>
             <form class="save-button" action="/reloadPixels"><button type="submit">Reload Pixels</button></form>
+        </div>
+        <div id="change-password">
+            <h2>Thay Đổi Thông Tin</h2>
+            <div class="save-button">
+                <form action="/update-password" method="post">
+                    <div id="client">
+                        <div id="client-username">
+                            <label>Tên Đăng Nhập:</label>
+                            <input type="text" name="client_username" value="<%= adminData.clientUsername %>">
+                        </div>
+                        <div id="client-password">
+                            <label>Mật Khẩu:</label>
+                            <input type="text" name="client_password" value="<%= adminData.clientPassword %>">
+                        </div>
+                    </div>
+                    <div id="admin">
+                        <div id="admin-username">
+                            <label>Tên Đăng Nhập Admin:</label>
+                            <input type="text" name="admin_username" value="<%= adminData.adminUsername %>">
+                        </div>
+                        <div id="admin-password">
+                            <label>Mật Khẩu Admin:</label>
+                            <input type="text" name="admin_password" value="<%= adminData.adminPassword %>">
+                        </div>
+                    </div>
+                    <div class="save-button"><button type="submit">Cập nhật thông tin</button></div>
+
+                </form>
+            </div>
         </div>
     </body>
 
