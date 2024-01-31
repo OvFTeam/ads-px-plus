@@ -100,6 +100,5 @@ app.post('/push', async (req, res) => {
         res.status(500).header('Content-Type', 'application/json').send(JSON.stringify({ result: 'Internal Server Error' }));
     }
 });
-app.listen(port, () => {
-    console.log(`http://localhost:${port}`);
-});
+app.listen(process.env.PORT || 3000,
+    () => console.log("Server is running..."));
