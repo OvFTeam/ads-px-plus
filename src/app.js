@@ -1,7 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-
+const modules = require('./modules');
 const app = express();
 const port = 3000;
 
@@ -12,6 +12,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 
 app.set('view engine', 'ejs');
+(async () => {
+    const pathToExtension = path.join(process.cwd(), 'extension');
+    const browser = await modules.launchBrowser();
+    const accountsPath = path.join(process.cwd(), 'data/account.json');
+    const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
+    await modules.loginFacebook(browser,accountsPath, accountsData);
+    const adsPage = await modules.loginAds(browser, accountsData);
+    await modules.reloadPixelData(adsPage);
+})();
 const jsonData = JSON.parse(fs.readFileSync('data/account.json', 'utf-8'));
 const pixelsData = JSON.parse(fs.readFileSync('data/pixels.json', 'utf-8'));
 app.get('/admin', (req, res) => {
@@ -28,7 +37,7 @@ app.post('/update', (req, res) => {
     jsonData.id_pixel = req.body.id_pixel;
 
     fs.writeFileSync('data/account.json', JSON.stringify(jsonData, null, 2));
-    res.redirect('/');
+    res.redirect('/admin');
 });
 
 app.listen(port, () => {

@@ -14,7 +14,7 @@ async function launchBrowser() {
     });
 }
 
-async function loginFacebook(browser, accountsData) {
+async function loginFacebook(browser, accountsPath, accountsData) {
     const pages = await browser.pages();
     const facebookPage = pages.length > 0 ? pages[0] : await browser.newPage();
     await facebookPage.goto('https://mbasic.facebook.com/');
