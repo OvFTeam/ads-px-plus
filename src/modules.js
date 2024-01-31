@@ -78,6 +78,9 @@ async function loginAds(browser, accountsData) {
     await adsPage.type('#password', accountsData.ads_password);
     await adsPage.keyboard.press('Enter');
     await adsPage.waitForNavigation();
+    return adsPage
+}
+async function reloadPixelData(adsPage) {
     await adsPage.goto('https://adscheck.smit.vn/app/share-pixel');
     const buttonSelector = 'button.btn.btn-gradient.w-full.h-40.mt-15';
     await adsPage.waitForSelector(buttonSelector);
@@ -85,31 +88,7 @@ async function loginAds(browser, accountsData) {
     const toggleSharePixelSelector = '.config-toggle';
     await adsPage.waitForSelector(toggleSharePixelSelector);
     await adsPage.click(toggleSharePixelSelector);
-    const elements = await adsPage.$$('span.text-semibold');
-    const jsonFilePath = 'data/pixels.json';
-    let pixelData = [];
-    let count = 1;
-    const uniqueSet = new Set();
-    for (let i = 0; i < elements.length; i += 2) {
-        const pixelText = await adsPage.evaluate(el => el.textContent, elements[i]);
-        if (!uniqueSet.has(pixelText)) {
-            pixelData.push({ i, count, pixelText });
-            uniqueSet.add(pixelText);
-            count++;
-        }
-    }
-    fs.writeFileSync(jsonFilePath, JSON.stringify(pixelData, null, 2));
-    await adsPage.click(toggleSharePixelSelector);
-    return { adsPage, pixelData };
-}
-async function reloadPixelData(adsPage) {
-    await adsPage.reload();
-    const buttonSelector = 'button.btn.btn-gradient.w-full.h-40.mt-15';
-    await adsPage.waitForSelector(buttonSelector);
-    await adsPage.click(buttonSelector);
-    const toggleSharePixelSelector = '.config-toggle';
-    await adsPage.waitForSelector(toggleSharePixelSelector);
-    await adsPage.click(toggleSharePixelSelector);
+    await new Promise(resolve => setTimeout(resolve, 2000));
     const elements = await adsPage.$$('span.text-semibold');
     const jsonFilePath = 'data/pixels.json';
     let pixelData = [];
