@@ -6,8 +6,10 @@ const path = require('path');
 async function launchBrowser() {
     const pathToExtension = path.join(process.cwd(), 'extension');
     return await puppeteer.launch({
-        headless: "new",
+        headless: true,
         args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
             `--disable-extensions-except=${pathToExtension}`,
             `--load-extension=${pathToExtension}`,
         ],
