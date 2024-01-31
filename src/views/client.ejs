@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./style.css">
+        <link rel="shortcut icon"
+            href="https://avatars.githubusercontent.com/u/152502950?s=400&u=27eac8729a31466087b088f89bd8391f1c45b5be&v=4"
+            type="image/x-icon">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const loginPopup = document.getElementById('login-popup');
+                const overlay = document.getElementById('overlay');
+                const loginForm = document.getElementById('login-form');
+                const clientDashboard = document.getElementById('client-dashboard');
+                const adsUsernameInput = document.getElementById('ads_username');
+                const adsPasswordInput = document.getElementById('ads_password');
+
+                loginPopup.style.display = 'block';
+                overlay.style.display = 'block';
+                clientDashboard.style.display = 'none';
+
+                const logedIn = localStorage.getItem('clientLogedIn');
+
+                if (logedIn) {
+                    loginPopup.style.display = 'none';
+                    overlay.style.display = 'none';
+                    clientDashboard.style.display = 'block';
+                }
+
+                loginForm.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    const enteredUsername = adsUsernameInput.value;
+                    const enteredPassword = adsPasswordInput.value;
+
+                    const correctUsername = '<%= clientData.clientUsername %>';
+                    const correctPassword = '<%= clientData.clientPassword %>';
+
+                    if (enteredUsername === correctUsername && enteredPassword === correctPassword) {
+                        localStorage.setItem('clientLogedIn', 'true');
+
+                        loginPopup.style.display = 'none';
+                        overlay.style.display = 'none';
+                        clientDashboard.style.display = 'block';
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi...',
+                            text: 'Sai tài khoản hoặc mật khẩu, vui lòng thử lại',
+                        });
+                    }
+                });
+            });
+        </script>
+        <script>
+            function submitForm() {
+                var tkqkValue = document.getElementsByName("tkqk")[0].value;
+                event.preventDefault();
+                fetch('/push', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ tkqk: tkqkValue })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.result === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công',
+                                text: 'Gửi đi thành công',
+                            });
+                        } else if (data.result === 'fail') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Lỗi phải máy chủ',
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Unknown',
+                                text: 'Lỗi phía máy chủ',
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        </script>
+        <title>ADS PX PLUS</title>
+    </head>
+
+    <body>
+        <div id="overlay" class="overlay"></div>
+        <div id="login-popup">
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="ads_username">Tài Khoản:</label>
+                <input type="text" id="ads_username" name="ads_username">
+
+                <label for="ads_password">Mật Khẩu:</label>
+                <input type="password" id="ads_password" name="ads_password">
+                <div class="save-button">
+                    <button type="submit">Đăng nhập</button>
+                </div>
+            </form>
+        </div>
+        <div id="client-dashboard">
+            <h1>ADS PX PLUS</h1>
+            <div id="client-push">
+                <label>ID Tài Khoản Quảng Cáo:</label>
+                <div class="save-button">
+                    <input type="text" name="tkqk">
+                </div>
+                <div class="save-button">
+                    <button type="button" onclick="submitForm()">Gửi đi</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </body>
+
+</html>

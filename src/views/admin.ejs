@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
+        <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/152502950?s=400&u=27eac8729a31466087b088f89bd8391f1c45b5be&v=4" type="image/x-icon">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -64,8 +65,9 @@
 
                 <label for="ads_password">Mật Khẩu admin:</label>
                 <input type="password" id="ads_password" name="ads_password">
-
-                <button type="submit">Đăng nhập</button>
+                <div class="save-button">
+                    <button type="submit">Đăng nhập</button>
+                </div>
             </form>
         </div>
         <div id="admin-dashboard">
@@ -100,19 +102,22 @@
                     <div id="pixel-main">
                         <label for="id_pixel">ID Pixel:</label>
                         <div id="pixel">
-
                             <% for (const pixel of pixelData) { %>
-                            <input type="radio" name="id_pixel" value="<%= pixel.i %>"
-                                <%= data.id_pixel == pixel.i ? 'checked' : '' %>>
-                            <%= pixel.pixelText %><br> <% } %>
+                            <div class="radio-container">
+                                <input type="radio" name="id_pixel" value="<%= pixel.i %>"
+                                    <%= data.id_pixel == pixel.i ? 'checked' : '' %>>
+                                <div id="pixel-text"><%= pixel.pixelText %></div>
+                            </div>
+                            <% } %>
                         </div>
+
                     </div>
                 </div>
-                <div id="save-button">
+                <div class="save-button">
                     <button type="submit">Lưu lại</button>
                 </div>
             </form>
-            <form action="/reloadPixels"><button type="submit">Reload Pixels</button></form>
+            <form class="save-button" action="/reloadPixels"><button type="submit">Reload Pixels</button></form>
         </div>
     </body>
 

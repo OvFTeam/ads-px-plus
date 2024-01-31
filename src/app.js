@@ -13,20 +13,23 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 let adsPage;
 const jsonData = JSON.parse(fs.readFileSync('data/account.json', 'utf-8'));
-(async () => {
-    const pathToExtension = path.join(process.cwd(), 'extension');
-    const browser = await modules.launchBrowser();
-    const accountsPath = path.join(process.cwd(), 'data/account.json');
-    const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
-    await modules.loginFacebook(browser, accountsPath, accountsData);
-    adsPage = await modules.loginAds(browser, accountsData);
-    await modules.reloadPixelData(adsPage);
-})();
+const credentialsData = JSON.parse(fs.readFileSync('data/credentials.json', 'utf-8'));
 
+// (async () => {
+//     const pathToExtension = path.join(process.cwd(), 'extension');
+//     const browser = await modules.launchBrowser();
+//     const accountsPath = path.join(process.cwd(), 'data/account.json');
+//     const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
+//     await modules.loginFacebook(browser, accountsPath, accountsData);
+//     adsPage = await modules.loginAds(browser, accountsData);
+//     await modules.reloadPixelData(adsPage);
+// })();
+app.get('/', (req, res) => {
+    res.render('client', { data: jsonData, clientData: credentialsData });
+});
 app.get('/admin', (req, res) => {
     const pixelsData = JSON.parse(fs.readFileSync('data/pixels.json', 'utf-8'));
-    const adminData = JSON.parse(fs.readFileSync('data/credentials.json', 'utf-8'));
-    res.render('admin', { data: jsonData, pixelData: pixelsData, adminData: adminData });
+    res.render('admin', { data: jsonData, pixelData: pixelsData, adminData: credentialsData });
 });
 
 app.get('/reloadPixels', async (req, res) => {

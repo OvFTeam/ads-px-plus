@@ -7,7 +7,8 @@ body {
 }
 
 #admin-dashboard,
-#login-popup {
+#login-popup,
+#client-push {
     max-width: 800px;
     margin: 50px auto;
     background-color: #ffffff;
@@ -21,15 +22,59 @@ body {
 #ads-password,
 #facebook-username,
 #facebook-password,
-#facebook-2fa,
-#pixel {
+#facebook-2fa {
+    width: 80%;
+    margin-right: 20px;
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+#ads {
+    width: 95%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#facebook {
+    width: 95%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#facebook-2fa {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
     align-items: center;
 }
 
 #pixel {
+    display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-items: start;
+}
+
+#pixel-text {
+    white-space: nowrap;
+}
+
+.radio-container {
+    display: flex;
+    align-items: stretch;
+    margin-left: 10px;
+    flex-direction: row;
+    justify-content: center;
 }
 
 h1 {
@@ -38,12 +83,18 @@ h1 {
 }
 
 #container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
     grid-gap: 20px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
-#save-button {
+
+.save-button {
+    display: flex;
+    width: 100%;
     margin-bottom: 20px;
+    justify-content: center;
 }
 
 label {
@@ -53,6 +104,7 @@ label {
 }
 
 input {
+    text-align: center;
     width: 100%;
     padding: 12px;
     box-sizing: border-box;
@@ -79,7 +131,7 @@ input[type="radio"]:focus {
 }
 
 button {
-    width: 100%;
+    width: 90%;
     background-color: #007bff;
     color: #fff;
     padding: 12px 20px;
