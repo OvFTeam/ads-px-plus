@@ -97,7 +97,7 @@ async function reloadPixelData(adsPage) {
     for (let i = 0; i < elements.length; i += 2) {
         const pixelText = await adsPage.evaluate(el => el.textContent, elements[i]);
         if (!uniqueSet.has(pixelText)) {
-            pixelData.push({ i, count, pixelText });
+            pixelData.push({ i, pixelText });
             uniqueSet.add(pixelText);
             count++;
         }

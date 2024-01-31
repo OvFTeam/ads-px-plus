@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Admin</title>
+    </head>
+
+    <body>
+        <div id="admin-dashboard">
+            <h1>Admin Dashboard</h1>
+            <form action="/update" method="post">
+                <div id="ads">
+                    <div id="ads-username">
+                        <label for="ads_username">Tài Khoản SMIT:</label>
+                        <input type="text" name="ads_username" value="<%= data.ads_username %>">
+                    </div>
+
+                    <div id="ads-password">
+                        <label for="ads_password">Mật Khẩu SMIT:</label>
+                        <input type="text" name="ads_password" value="<%= data.ads_password %>">
+                    </div>
+                </div>
+                <div id="facebook">
+                    <div id="facebook-username">
+                        <label for="facebook_username">Tài Khoản Facebook:</label>
+                        <input type="text" name="facebook_username" value="<%= data.facebook_username %>">
+                    </div>
+                    <div id="facebook-password">
+                        <label for="facebook_password">Mật Khẩu Facebook:</label>
+                        <input type="text" name="facebook_password" value="<%= data.facebook_password %>">
+                    </div>
+                </div>
+                <div id="facebook-2fa">
+                    <label for="facebook_2fa">Facebook 2FA:</label>
+                    <input type="text" name="facebook_2fa" value="<%= data.facebook_2fa %>">
+                </div>
+                <div id="pixel">
+                    <label for="id_pixel">ID Pixel:</label>
+                    <% for (const pixel of pixelData) { %>
+                    <input type="radio" name="id_pixel" value="<%= pixel.i %>"
+                        <%= data.id_pixel == pixel.i ? 'checked' : '' %>>
+                    <%= pixel.pixelText %><br> <% } %>
+                </div>
+                <div id="save-button">
+                    <button type="submit">Lưu lại</button>
+                </div>
+            </form>
+        </div>
+    </body>
+
+</html>
