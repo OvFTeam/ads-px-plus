@@ -13,29 +13,29 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 let adsPage;
 let elements;
-// try {
-//     (async () => {
-//         const pathToExtension = path.join(process.cwd(), 'extension');
-//         const browser = await modules.launchBrowser();
-//         const accountsPath = path.join(process.cwd(), 'data/account.json');
-//         const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
-//         await modules.loginFacebook(browser, accountsPath, accountsData);
-//         adsPage = await modules.loginAds(browser, accountsData);
-//         elements = await modules.reloadPixelData(adsPage);
-//     })();
-// }
-// catch (error) {
-//     (async () => {
-//         const pathToExtension = path.join(process.cwd(), 'extension');
-//         await modules.closeBrowser()
-//         const browser = await modules.launchBrowser();
-//         const accountsPath = path.join(process.cwd(), 'data/account.json');
-//         const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
-//         await modules.loginFacebook(browser, accountsPath, accountsData);
-//         adsPage = await modules.loginAds(browser, accountsData);
-//         elements = await modules.reloadPixelData(adsPage);
-//     })();
-// }
+try {
+    (async () => {
+        const pathToExtension = path.join(process.cwd(), 'extension');
+        const browser = await modules.launchBrowser();
+        const accountsPath = path.join(process.cwd(), 'data/account.json');
+        const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
+        await modules.loginFacebook(browser, accountsPath, accountsData);
+        adsPage = await modules.loginAds(browser, accountsData);
+        elements = await modules.reloadPixelData(adsPage);
+    })();
+}
+catch (error) {
+    (async () => {
+        const pathToExtension = path.join(process.cwd(), 'extension');
+        await modules.closeBrowser()
+        const browser = await modules.launchBrowser();
+        const accountsPath = path.join(process.cwd(), 'data/account.json');
+        const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
+        await modules.loginFacebook(browser, accountsPath, accountsData);
+        adsPage = await modules.loginAds(browser, accountsData);
+        elements = await modules.reloadPixelData(adsPage);
+    })();
+}
 app.get('/', (req, res) => {
     const jsonData = JSON.parse(fs.readFileSync('data/account.json', 'utf-8'));
     const credentialsData = JSON.parse(fs.readFileSync('data/credentials.json', 'utf-8'));
