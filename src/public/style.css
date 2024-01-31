@@ -1,41 +1,91 @@
-#admin-dashboard {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    color: #333;
 }
 
-#ads {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    justify-content: center;
+#admin-dashboard,
+#login-popup {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 8px;
 }
 
-#facebook {
+#pixel-main,
+#ads-username,
+#ads-password,
+#facebook-username,
+#facebook-password,
+#facebook-2fa,
+#pixel {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: nowrap;
-    justify-content: center;
-}
-
-#facebook-2fa {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    justify-content: center;
 }
 
 #pixel {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    justify-content: center;
     flex-direction: row;
 }
 
-#save-button {
-    margin-top: 20px;
+h1 {
     text-align: center;
+    color: #007bff;
+}
+
+#container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+input:hover {
+    border-color: #007bff;
+}
+
+input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+}
+
+input[type="radio"]:hover,
+input[type="radio"]:focus {
+    box-shadow: none;
+}
+
+button {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
