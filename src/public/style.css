@@ -42,6 +42,9 @@ h1 {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
 }
+#save-button {
+    margin-bottom: 20px;
+}
 
 label {
     margin-bottom: 8px;

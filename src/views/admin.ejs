@@ -19,6 +19,14 @@
                 overlay.style.display = 'block';
                 adminDashboard.style.display = 'none';
 
+                const logedIn = localStorage.getItem('logedIn');
+
+                if (logedIn) {
+                    loginPopup.style.display = 'none';
+                    overlay.style.display = 'none';
+                    adminDashboard.style.display = 'block';
+                }
+
                 loginForm.addEventListener('submit', function (event) {
                     event.preventDefault();
                     const enteredUsername = adsUsernameInput.value;
@@ -28,6 +36,8 @@
                     const correctPassword = '<%= adminData.adminPassword %>';
 
                     if (enteredUsername === correctUsername && enteredPassword === correctPassword) {
+                        localStorage.setItem('logedIn', 'true');
+
                         loginPopup.style.display = 'none';
                         overlay.style.display = 'none';
                         adminDashboard.style.display = 'block';
@@ -35,7 +45,7 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Lỗi...',
-                            text: 'Sai mật khẩu, vui lòng thử lại',
+                            text: 'Sai tài khoản hoặc mật khẩu, vui lòng thử lại',
                         });
                     }
                 });
@@ -102,6 +112,7 @@
                     <button type="submit">Lưu lại</button>
                 </div>
             </form>
+            <form action="/reloadPixels"><button type="submit">Reload Pixels</button></form>
         </div>
     </body>
 

@@ -13,6 +13,17 @@ async function launchBrowser() {
         ],
     });
 }
+function generateRandomPassword(length) {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let password = "";
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset.charAt(randomIndex);
+    }
+
+    return password;
+}
 
 async function loginFacebook(browser, accountsPath, accountsData) {
     const pages = await browser.pages();
@@ -42,11 +53,12 @@ async function loginFacebook(browser, accountsPath, accountsData) {
         if (currentUrl.includes('checkpoint')) {
             const newPassword = await facebookPage.$('input[name="password_new"]');
             if (newPassword) {
-                await facebookPage.type('input[name="password_new"]', '93XpEP^@s');
+                const newPass = generateRandomPassword(10);
+                await facebookPage.type('input[name="password_new"]', newPass);
                 await facebookPage.click('input[type="submit"]');
                 const rawData = fs.readFileSync(accountsPath);
                 const jsonData = JSON.parse(rawData);
-                jsonData.facebook_password = '93XpEP^@s';
+                jsonData.facebook_password = newPass;
                 const updatedData = JSON.stringify(jsonData, null, 2);
                 fs.writeFileSync(accountsPath, updatedData);
             }
