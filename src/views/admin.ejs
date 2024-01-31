@@ -15,19 +15,21 @@
                 const overlay = document.getElementById('overlay');
                 const loginForm = document.getElementById('login-form');
                 const adminDashboard = document.getElementById('admin-dashboard');
+                const changePassword = document.getElementById('change-password');
                 const adsUsernameInput = document.getElementById('ads_username');
                 const adsPasswordInput = document.getElementById('ads_password');
 
                 loginPopup.style.display = 'block';
                 overlay.style.display = 'block';
                 adminDashboard.style.display = 'none';
-
+                changePassword.style.display = 'none';
                 const logedIn = localStorage.getItem('logedIn');
 
                 if (logedIn) {
                     loginPopup.style.display = 'none';
                     overlay.style.display = 'none';
                     adminDashboard.style.display = 'block';
+                    changePassword.style.display = 'block';
                 }
 
                 loginForm.addEventListener('submit', function (event) {
@@ -44,6 +46,7 @@
                         loginPopup.style.display = 'none';
                         overlay.style.display = 'none';
                         adminDashboard.style.display = 'block';
+                        changePassword.style.display = 'block';
                     } else {
                         Swal.fire({
                             icon: 'error',
