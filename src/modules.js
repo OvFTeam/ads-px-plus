@@ -6,7 +6,7 @@ const path = require('path');
 async function launchBrowser() {
     const pathToExtension = path.join(process.cwd(), 'extension');
     return await puppeteer.launch({
-        headless: "new",
+        headless: false,
         args: [
             "--no-sandbox",
             "--disable-setuid-sandbox",
@@ -23,7 +23,6 @@ function generateRandomPassword(length) {
         const randomIndex = Math.floor(Math.random() * charset.length);
         password += charset.charAt(randomIndex);
     }
-
     return password;
 }
 
@@ -88,6 +87,7 @@ async function loginAds(browser, accountsData) {
     const pages = await browser.pages();
     const adsPage = pages.length > 0 ? pages[0] : await browser.newPage();
     await adsPage.goto('https://dashboard.smit.vn/');
+    await adsPage.waitForSelector('#username');
     await adsPage.type('#username', accountsData.ads_username);
     await adsPage.type('#password', accountsData.ads_password);
     await adsPage.keyboard.press('Enter');
@@ -151,10 +151,40 @@ async function sharePixel(adsPage, elements, idPixel, tkqc) {
     return 'Success';
 }
 async function closeBrowser(browser) {
-    await browser.close();
+    try {
+        await browser.close();
+    } catch (error) {
+        console.error('Error closing browser:', error);
+    }
 }
 
+async function initBrowser() {
+    let browser;
+    let adsPage;
+    let elements;
+    try {
+        const pathToExtension = path.join(process.cwd(), 'extension');
+        browser = await launchBrowser();
+        const accountsPath = path.join(process.cwd(), 'data/account.json');
+        const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
+        await loginFacebook(browser, accountsPath, accountsData);
+        adsPage = await loginAds(browser, accountsData);
+        elements = await reloadPixelData(adsPage);
+        return { browser, adsPage, elements };
+    }
+    catch (error) {
+        await closeBrowser(browser);
+        browser = await launchBrowser();
+        const accountsPath = path.join(process.cwd(), 'data/account.json');
+        const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
+        await loginFacebook(browser, accountsPath, accountsData);
+        adsPage = await loginAds(browser, accountsData);
+        elements = await reloadPixelData(adsPage);
+        return { browser, adsPage, elements };
+    }
+}
 module.exports = {
+    initBrowser,
     launchBrowser,
     loginFacebook,
     loginAds,

@@ -23,13 +23,16 @@
                 clientDashboard.style.display = 'none';
 
                 const logedIn = localStorage.getItem('clientLogedIn');
-
+                const savedUsername = localStorage.getItem('clientUsername');
+                const savedPassword = localStorage.getItem('clientPassword');
+                const condition = savedUsername === '<%= clientData.clientUsername %>' && savedPassword === '<%= clientData.clientPassword %>';
                 if (logedIn) {
-                    loginPopup.style.display = 'none';
-                    overlay.style.display = 'none';
-                    clientDashboard.style.display = 'block';
+                    if (condition) {
+                        loginPopup.style.display = 'none';
+                        overlay.style.display = 'none';
+                        clientDashboard.style.display = 'block';
+                    }
                 }
-
                 loginForm.addEventListener('submit', function (event) {
                     event.preventDefault();
                     const enteredUsername = adsUsernameInput.value;
@@ -40,7 +43,8 @@
 
                     if (enteredUsername === correctUsername && enteredPassword === correctPassword) {
                         localStorage.setItem('clientLogedIn', 'true');
-
+                        localStorage.setItem('clientUsername', enteredUsername);
+                        localStorage.setItem('clientPassword', enteredPassword);
                         loginPopup.style.display = 'none';
                         overlay.style.display = 'none';
                         clientDashboard.style.display = 'block';
