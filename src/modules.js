@@ -84,6 +84,7 @@ async function loginFacebook(browser, accountsPath, accountsData) {
     }
 }
 async function loginAds(browser, accountsData) {
+    try{
     const pages = await browser.pages();
     const adsPage = pages.length > 0 ? pages[0] : await browser.newPage();
     await adsPage.goto('https://dashboard.smit.vn/');
@@ -92,7 +93,9 @@ async function loginAds(browser, accountsData) {
     await adsPage.type('#password', accountsData.ads_password);
     await adsPage.keyboard.press('Enter');
     await adsPage.waitForNavigation();
-    return adsPage
+    return adsPage}
+	catch(error){
+	}
 }
 async function reloadPixelData(adsPage) {
     await adsPage.goto('https://adscheck.smit.vn/app/share-pixel');
@@ -174,12 +177,6 @@ async function initBrowser() {
     }
     catch (error) {
         await closeBrowser(browser);
-        browser = await launchBrowser();
-        const accountsPath = path.join(process.cwd(), 'data/account.json');
-        const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
-        await loginFacebook(browser, accountsPath, accountsData);
-        adsPage = await loginAds(browser, accountsData);
-        elements = await reloadPixelData(adsPage);
         return { browser, adsPage, elements };
     }
 }
