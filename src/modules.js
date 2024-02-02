@@ -57,8 +57,8 @@ async function loginFacebook(browser, accountsPath, accountsData) {
             if (newPassword) {
                 const newPass = generateRandomPassword(10);
                 await facebookPage.type('input[name="password_new"]', newPass);
-                await utils.waitFor(1000);
                 await facebookPage.click('input[type="submit"]');
+                await new Promise(resolve => setTimeout(resolve, 2000));
                 const rawData = fs.readFileSync(accountsPath);
                 const jsonData = JSON.parse(rawData);
                 jsonData.facebook_password = newPass;
@@ -74,10 +74,9 @@ async function loginFacebook(browser, accountsPath, accountsData) {
                 fs.writeFileSync(accountsPath, updatedData);
                 break;
             } else {
-                await utils.waitFor(1000);
                 await facebookPage.click('input[type="submit"]');
             }
-            await utils.waitFor(500);
+            await new Promise(resolve => setTimeout(resolve, 2000));
             currentUrl = facebookPage.url();
             i++;
         } else {
@@ -96,7 +95,7 @@ async function loginAds(browser, accountsData) {
         await adsPage.keyboard.press('Enter');
         await adsPage.waitForNavigation();
         return adsPage
-    } catch (error) {}
+    } catch (error) { }
 }
 async function reloadPixelData(adsPage) {
     await adsPage.goto('https://adscheck.smit.vn/app/share-pixel');
