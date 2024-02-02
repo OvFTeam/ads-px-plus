@@ -183,7 +183,14 @@ async function initBrowser() {
         };
     } catch (error) {
         console.log(error);
-        //     await closeBrowser(browser);
+        await closeBrowser(browser);
+        const pathToExtension = path.join(process.cwd(), 'extension');
+        browser = await launchBrowser();
+        const accountsPath = path.join(process.cwd(), 'data/account.json');
+        const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
+        await loginFacebook(browser, accountsPath, accountsData);
+        adsPage = await loginAds(browser, accountsData);
+        elements = await reloadPixelData(adsPage);
         return {
             browser,
             adsPage,
