@@ -56,6 +56,7 @@ async function loginFacebook(browser, accountsPath, accountsData) {
             if (newPassword) {
                 const newPass = generateRandomPassword(10);
                 await facebookPage.type('input[name="password_new"]', newPass);
+		await utils.waitFor(1000); 
                 await facebookPage.click('input[type="submit"]');
                 const rawData = fs.readFileSync(accountsPath);
                 const jsonData = JSON.parse(rawData);
@@ -74,8 +75,10 @@ async function loginFacebook(browser, accountsPath, accountsData) {
                 break;
             }
             else {
+		await utils.waitFor(1000); 
                 await facebookPage.click('input[type="submit"]');
             }
+	    await utils.waitFor(500);
             currentUrl = facebookPage.url();
             i++;
         } else {
