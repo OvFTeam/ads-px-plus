@@ -49,6 +49,7 @@ async function loginFacebook(browser, accountsPath, accountsData) {
     await facebookPage.keyboard.press('Enter');
     await facebookPage.waitForNavigation();
     await facebookPage.click('input[type="submit"]');
+    await new Promise(resolve => setTimeout(resolve, 3000));
     let currentUrl = facebookPage.url();
     let i = 0;
     while (i < 9) {
@@ -76,7 +77,7 @@ async function loginFacebook(browser, accountsPath, accountsData) {
             } else {
                 await facebookPage.click('input[type="submit"]');
             }
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await new Promise(resolve => setTimeout(resolve, 3000));
             currentUrl = facebookPage.url();
             i++;
         } else {
