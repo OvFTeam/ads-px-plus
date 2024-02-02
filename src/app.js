@@ -32,14 +32,8 @@ app.get('/admin', (req, res) => {
 });
 
 app.get('/reloadPixels', async (req, res) => {
-    const pathToExtension = path.join(process.cwd(), 'extension');
     await modules.closeBrowser(browser);
-    browser = await modules.launchBrowser();
-    const accountsPath = path.join(process.cwd(), 'data/account.json');
-    const accountsData = JSON.parse(fs.readFileSync(accountsPath, 'utf-8'));
-    await modules.loginFacebook(browser, accountsPath, accountsData);
-    adsPage = await modules.loginAds(browser, accountsData);
-    elements = await modules.reloadPixelData(adsPage);
+({ browser, adsPage, elements } = await modules.initBrowser());
     res.redirect('/admin');
 });
 

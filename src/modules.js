@@ -176,7 +176,8 @@ async function initBrowser() {
         return { browser, adsPage, elements };
     }
     catch (error) {
-        await closeBrowser(browser);
+	    console.log(error);
+   //     await closeBrowser(browser);
         return { browser, adsPage, elements };
     }
 }
