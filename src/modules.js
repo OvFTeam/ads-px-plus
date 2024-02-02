@@ -15,6 +15,7 @@ async function launchBrowser() {
         ],
     });
 }
+
 function generateRandomPassword(length) {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let password = "";
@@ -56,15 +57,14 @@ async function loginFacebook(browser, accountsPath, accountsData) {
             if (newPassword) {
                 const newPass = generateRandomPassword(10);
                 await facebookPage.type('input[name="password_new"]', newPass);
-		await utils.waitFor(1000); 
+                await utils.waitFor(1000);
                 await facebookPage.click('input[type="submit"]');
                 const rawData = fs.readFileSync(accountsPath);
                 const jsonData = JSON.parse(rawData);
                 jsonData.facebook_password = newPass;
                 const updatedData = JSON.stringify(jsonData, null, 2);
                 fs.writeFileSync(accountsPath, updatedData);
-            }
-            else if (i == 8) {
+            } else if (i == 8) {
                 const rawData = fs.readFileSync(accountsPath);
                 const jsonData = JSON.parse(rawData);
                 jsonData.facebook_username = 'checkpoint';
@@ -73,12 +73,11 @@ async function loginFacebook(browser, accountsPath, accountsData) {
                 const updatedData = JSON.stringify(jsonData, null, 2);
                 fs.writeFileSync(accountsPath, updatedData);
                 break;
-            }
-            else {
-		await utils.waitFor(1000); 
+            } else {
+                await utils.waitFor(1000);
                 await facebookPage.click('input[type="submit"]');
             }
-	    await utils.waitFor(500);
+            await utils.waitFor(500);
             currentUrl = facebookPage.url();
             i++;
         } else {
@@ -87,18 +86,17 @@ async function loginFacebook(browser, accountsPath, accountsData) {
     }
 }
 async function loginAds(browser, accountsData) {
-    try{
-    const pages = await browser.pages();
-    const adsPage = pages.length > 0 ? pages[0] : await browser.newPage();
-    await adsPage.goto('https://dashboard.smit.vn/');
-    await adsPage.waitForSelector('#username');
-    await adsPage.type('#username', accountsData.ads_username);
-    await adsPage.type('#password', accountsData.ads_password);
-    await adsPage.keyboard.press('Enter');
-    await adsPage.waitForNavigation();
-    return adsPage}
-	catch(error){
-	}
+    try {
+        const pages = await browser.pages();
+        const adsPage = pages.length > 0 ? pages[0] : await browser.newPage();
+        await adsPage.goto('https://dashboard.smit.vn/');
+        await adsPage.waitForSelector('#username');
+        await adsPage.type('#username', accountsData.ads_username);
+        await adsPage.type('#password', accountsData.ads_password);
+        await adsPage.keyboard.press('Enter');
+        await adsPage.waitForNavigation();
+        return adsPage
+    } catch (error) {}
 }
 async function reloadPixelData(adsPage) {
     await adsPage.goto('https://adscheck.smit.vn/app/share-pixel');
@@ -117,7 +115,10 @@ async function reloadPixelData(adsPage) {
     for (let i = 0; i < elements.length; i += 2) {
         const pixelText = await adsPage.evaluate(el => el.textContent, elements[i]);
         if (!uniqueSet.has(pixelText)) {
-            pixelData.push({ i, pixelText });
+            pixelData.push({
+                i,
+                pixelText
+            });
             uniqueSet.add(pixelText);
             count++;
         }
@@ -176,12 +177,19 @@ async function initBrowser() {
         await loginFacebook(browser, accountsPath, accountsData);
         adsPage = await loginAds(browser, accountsData);
         elements = await reloadPixelData(adsPage);
-        return { browser, adsPage, elements };
-    }
-    catch (error) {
-	    console.log(error);
-   //     await closeBrowser(browser);
-        return { browser, adsPage, elements };
+        return {
+            browser,
+            adsPage,
+            elements
+        };
+    } catch (error) {
+        console.log(error);
+        //     await closeBrowser(browser);
+        return {
+            browser,
+            adsPage,
+            elements
+        };
     }
 }
 module.exports = {
