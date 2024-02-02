@@ -75,6 +75,7 @@ async function loginFacebook(browser, accountsPath, accountsData) {
                 fs.writeFileSync(accountsPath, updatedData);
                 break;
             } else {
+                await new Promise(resolve => setTimeout(resolve, 200));
                 await facebookPage.click('input[type="submit"]');
             }
             await new Promise(resolve => setTimeout(resolve, 3000));
@@ -96,13 +97,20 @@ async function loginAds(browser, accountsData) {
         await adsPage.keyboard.press('Enter');
         await adsPage.waitForNavigation();
         return adsPage
-    } catch (error) { }
+    } catch (error) {}
 }
 async function reloadPixelData(adsPage) {
-    await adsPage.goto('https://adscheck.smit.vn/app/share-pixel');
-    const buttonSelector = 'button.btn.btn-gradient.w-full.h-40.mt-15';
-    await adsPage.waitForSelector(buttonSelector);
-    await adsPage.click(buttonSelector);
+    try {
+        await adsPage.goto('https://adscheck.smit.vn/app/share-pixel');
+        const buttonSelector = 'button.btn.btn-gradient.w-full.h-40.mt-15';
+        await adsPage.waitForSelector(buttonSelector);
+        await adsPage.click(buttonSelector);
+    } catch (error) {
+        await adsPage.goto('https://adscheck.smit.vn/app/share-pixel');
+        const buttonSelector = 'button.btn.btn-gradient.w-full.h-40.mt-15';
+        await adsPage.waitForSelector(buttonSelector);
+        await adsPage.click(buttonSelector);
+    }
     const toggleSharePixelSelector = '.config-toggle';
     await adsPage.waitForSelector(toggleSharePixelSelector);
     await adsPage.click(toggleSharePixelSelector);
